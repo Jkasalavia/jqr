@@ -48,7 +48,7 @@
     .panel-head h2{font-size:18px;margin:0}
     .panel-head span{font-size:13px;color:var(--muted)}
     .panel-body{padding:18px}
-    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
     .tab{border:1px solid var(--line);background:var(--soft);border-radius:8px;height:42px;font-weight:700;cursor:pointer}
     .tab[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
     label{display:block;font-weight:700;margin:0 0 7px}
@@ -57,6 +57,7 @@
     input:focus,select:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(15,118,110,.12)}
     textarea{min-height:140px;resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row.three{grid-template-columns:1fr 1fr 1fr}
     .hint{font-size:13px;color:var(--muted);margin-top:6px}
     .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
     .btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;min-height:42px;padding:0 14px;font-weight:700;cursor:pointer}
@@ -77,6 +78,8 @@
     .feature strong{display:block;margin-bottom:5px}
     .feature span{color:var(--muted);font-size:14px}
     .hidden{display:none}
+    .divider{height:1px;background:var(--line);margin:16px 0}
+    .style-title{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin:0 0 12px}
     .workflow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
     .step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px}
     .step-num{width:30px;height:30px;border-radius:8px;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800;margin-bottom:12px}
@@ -91,6 +94,7 @@
     @media (max-width:560px){
       h1{font-size:32px}
       .row,.features,.workflow{grid-template-columns:1fr}
+      .tabs{grid-template-columns:1fr 1fr}
       #qrCanvas{width:220px;height:220px}
       .label-card{min-width:0;width:100%}
       .navlinks{display:none}
@@ -154,6 +158,10 @@
             <div class="tabs" role="tablist" aria-label="QR type">
               <button class="tab" id="textTab" aria-selected="true" type="button">Text / URL</button>
               <button class="tab" id="wifiTab" aria-selected="false" type="button">Wi-Fi</button>
+              <button class="tab" id="emailTab" aria-selected="false" type="button">Email</button>
+              <button class="tab" id="phoneTab" aria-selected="false" type="button">Phone</button>
+              <button class="tab" id="smsTab" aria-selected="false" type="button">SMS</button>
+              <button class="tab" id="vcardTab" aria-selected="false" type="button">vCard</button>
             </div>
 
             <div id="textForm">
@@ -190,6 +198,96 @@
                   <option value="true">Yes</option>
                 </select>
               </div>
+            </div>
+
+            <div id="emailForm" class="hidden">
+              <div class="field">
+                <label for="emailAddress">Email address</label>
+                <input id="emailAddress" type="email" placeholder="support@example.com">
+              </div>
+              <div class="field">
+                <label for="emailSubject">Subject</label>
+                <input id="emailSubject" placeholder="Support request">
+              </div>
+              <div class="field">
+                <label for="emailBody">Message</label>
+                <textarea id="emailBody" placeholder="Hello, I need help with..."></textarea>
+              </div>
+            </div>
+
+            <div id="phoneForm" class="hidden">
+              <div class="field">
+                <label for="phoneNumber">Phone number</label>
+                <input id="phoneNumber" placeholder="+1 555 0100">
+              </div>
+            </div>
+
+            <div id="smsForm" class="hidden">
+              <div class="field">
+                <label for="smsNumber">Phone number</label>
+                <input id="smsNumber" placeholder="+1 555 0100">
+              </div>
+              <div class="field">
+                <label for="smsMessage">SMS message</label>
+                <textarea id="smsMessage" placeholder="Please call IT support."></textarea>
+              </div>
+            </div>
+
+            <div id="vcardForm" class="hidden">
+              <div class="row">
+                <div class="field">
+                  <label for="firstName">First name</label>
+                  <input id="firstName" placeholder="Jane">
+                </div>
+                <div class="field">
+                  <label for="lastName">Last name</label>
+                  <input id="lastName" placeholder="Smith">
+                </div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="vcardPhone">Phone</label>
+                  <input id="vcardPhone" placeholder="+1 555 0100">
+                </div>
+                <div class="field">
+                  <label for="vcardEmail">Email</label>
+                  <input id="vcardEmail" type="email" placeholder="jane@example.com">
+                </div>
+              </div>
+              <div class="field">
+                <label for="vcardOrg">Organization</label>
+                <input id="vcardOrg" placeholder="Company or department">
+              </div>
+              <div class="field">
+                <label for="vcardWebsite">Website</label>
+                <input id="vcardWebsite" placeholder="https://example.com">
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <p class="style-title">Design</p>
+            <div class="row three">
+              <div class="field">
+                <label for="foregroundColor">Foreground</label>
+                <input id="foregroundColor" type="color" value="#111827">
+              </div>
+              <div class="field">
+                <label for="backgroundColor">Background</label>
+                <input id="backgroundColor" type="color" value="#ffffff">
+              </div>
+              <div class="field">
+                <label for="qrSize">PNG size</label>
+                <select id="qrSize">
+                  <option value="260">260 px</option>
+                  <option value="512" selected>512 px</option>
+                  <option value="1024">1024 px</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="logoFile">Center logo</label>
+              <input id="logoFile" type="file" accept="image/png,image/jpeg,image/svg+xml,image/gif">
+              <div class="hint">Optional. Use high contrast and test the QR after adding a logo.</div>
             </div>
 
             <div class="row">
@@ -249,16 +347,40 @@
 
   <script src="qrious.min.js"></script>
   <script>
-    const state = { mode: 'text', ready: false };
+    const state = { mode: 'text', ready: false, logoDataUrl: '' };
     const textTab = document.getElementById('textTab');
     const wifiTab = document.getElementById('wifiTab');
+    const emailTab = document.getElementById('emailTab');
+    const phoneTab = document.getElementById('phoneTab');
+    const smsTab = document.getElementById('smsTab');
+    const vcardTab = document.getElementById('vcardTab');
     const textForm = document.getElementById('textForm');
     const wifiForm = document.getElementById('wifiForm');
+    const emailForm = document.getElementById('emailForm');
+    const phoneForm = document.getElementById('phoneForm');
+    const smsForm = document.getElementById('smsForm');
+    const vcardForm = document.getElementById('vcardForm');
     const textValue = document.getElementById('textValue');
     const ssid = document.getElementById('ssid');
     const wifiPassword = document.getElementById('wifiPassword');
     const security = document.getElementById('security');
     const hiddenNetwork = document.getElementById('hiddenNetwork');
+    const emailAddress = document.getElementById('emailAddress');
+    const emailSubject = document.getElementById('emailSubject');
+    const emailBody = document.getElementById('emailBody');
+    const phoneNumber = document.getElementById('phoneNumber');
+    const smsNumber = document.getElementById('smsNumber');
+    const smsMessage = document.getElementById('smsMessage');
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName');
+    const vcardPhone = document.getElementById('vcardPhone');
+    const vcardEmail = document.getElementById('vcardEmail');
+    const vcardOrg = document.getElementById('vcardOrg');
+    const vcardWebsite = document.getElementById('vcardWebsite');
+    const foregroundColor = document.getElementById('foregroundColor');
+    const backgroundColor = document.getElementById('backgroundColor');
+    const qrSize = document.getElementById('qrSize');
+    const logoFile = document.getElementById('logoFile');
     const labelTitle = document.getElementById('labelTitle');
     const labelSubtitle = document.getElementById('labelSubtitle');
     const previewTitle = document.getElementById('previewTitle');
@@ -272,15 +394,31 @@
 
     function setMode(mode){
       state.mode = mode;
-      textTab.setAttribute('aria-selected', mode === 'text');
-      wifiTab.setAttribute('aria-selected', mode === 'wifi');
+      [textTab, wifiTab, emailTab, phoneTab, smsTab, vcardTab].forEach(tab => tab.setAttribute('aria-selected', 'false'));
+      document.getElementById(`${mode}Tab`).setAttribute('aria-selected', 'true');
       textForm.classList.toggle('hidden', mode !== 'text');
       wifiForm.classList.toggle('hidden', mode !== 'wifi');
+      emailForm.classList.toggle('hidden', mode !== 'email');
+      phoneForm.classList.toggle('hidden', mode !== 'phone');
+      smsForm.classList.toggle('hidden', mode !== 'sms');
+      vcardForm.classList.toggle('hidden', mode !== 'vcard');
       updateLabels();
     }
 
     function escapeWifi(value){
       return value.replace(/([\\;,":])/g, '\\$1');
+    }
+
+    function escapeVCard(value){
+      return value.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+    }
+
+    function mailtoPayload(address, subject, body){
+      const params = new URLSearchParams();
+      if(subject) params.set('subject', subject);
+      if(body) params.set('body', body);
+      const query = params.toString();
+      return `mailto:${address}${query ? `?${query}` : ''}`;
     }
 
     function getPayload(){
@@ -291,14 +429,68 @@
         const password = type === 'nopass' ? '' : wifiPassword.value;
         return `WIFI:T:${type};S:${escapeWifi(name)};P:${escapeWifi(password)};H:${hiddenNetwork.value};`;
       }
+      if(state.mode === 'email'){
+        const address = emailAddress.value.trim();
+        if(!address) throw new Error('Enter an email address.');
+        return mailtoPayload(address, emailSubject.value.trim(), emailBody.value.trim());
+      }
+      if(state.mode === 'phone'){
+        const number = phoneNumber.value.trim();
+        if(!number) throw new Error('Enter a phone number.');
+        return `tel:${number}`;
+      }
+      if(state.mode === 'sms'){
+        const number = smsNumber.value.trim();
+        if(!number) throw new Error('Enter a phone number.');
+        return `SMSTO:${number}:${smsMessage.value.trim()}`;
+      }
+      if(state.mode === 'vcard'){
+        const first = firstName.value.trim();
+        const last = lastName.value.trim();
+        if(!first && !last) throw new Error('Enter a first name or last name.');
+        const fullName = `${first} ${last}`.trim();
+        return [
+          'BEGIN:VCARD',
+          'VERSION:3.0',
+          `N:${escapeVCard(last)};${escapeVCard(first)};;;`,
+          `FN:${escapeVCard(fullName)}`,
+          vcardOrg.value.trim() ? `ORG:${escapeVCard(vcardOrg.value.trim())}` : '',
+          vcardPhone.value.trim() ? `TEL:${escapeVCard(vcardPhone.value.trim())}` : '',
+          vcardEmail.value.trim() ? `EMAIL:${escapeVCard(vcardEmail.value.trim())}` : '',
+          vcardWebsite.value.trim() ? `URL:${escapeVCard(vcardWebsite.value.trim())}` : '',
+          'END:VCARD'
+        ].filter(Boolean).join('\n');
+      }
       const value = textValue.value.trim();
       if(!value) throw new Error('Enter text or a URL.');
       return value;
     }
 
     function updateLabels(){
-      previewTitle.textContent = labelTitle.value.trim() || (state.mode === 'wifi' ? 'Wi-Fi QR' : 'JKELTS QR');
-      previewSubtitle.textContent = labelSubtitle.value.trim() || (state.mode === 'wifi' ? 'Scan to join Wi-Fi' : 'Scan to open');
+      const titles = { text: 'JKELTS QR', wifi: 'Wi-Fi QR', email: 'Email QR', phone: 'Phone QR', sms: 'SMS QR', vcard: 'Contact QR' };
+      const subtitles = { text: 'Scan to open', wifi: 'Scan to join Wi-Fi', email: 'Scan to email', phone: 'Scan to call', sms: 'Scan to text', vcard: 'Scan to save contact' };
+      previewTitle.textContent = labelTitle.value.trim() || titles[state.mode];
+      previewSubtitle.textContent = labelSubtitle.value.trim() || subtitles[state.mode];
+    }
+
+    function drawLogo(){
+      return new Promise(resolve => {
+        if(!state.logoDataUrl) return resolve();
+        const img = new Image();
+        img.onload = () => {
+          const ctx = canvas.getContext('2d');
+          const size = canvas.width * 0.2;
+          const x = (canvas.width - size) / 2;
+          const y = (canvas.height - size) / 2;
+          const pad = canvas.width * 0.025;
+          ctx.fillStyle = backgroundColor.value;
+          ctx.fillRect(x - pad, y - pad, size + pad * 2, size + pad * 2);
+          ctx.drawImage(img, x, y, size, size);
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = state.logoDataUrl;
+      });
     }
 
     async function generate(){
@@ -307,15 +499,19 @@
       try{
         if(!window.QRious) throw new Error('QR library failed to load. Refresh the page or check that qrious.min.js is published.');
         const payload = getPayload();
+        const size = Number(qrSize.value);
+        canvas.width = size;
+        canvas.height = size;
         new QRious({
           element: canvas,
           value: payload,
-          size: 260,
-          padding: 18,
-          background: '#ffffff',
-          foreground: '#111827',
-          level: 'M'
+          size,
+          padding: Math.round(size * 0.07),
+          background: backgroundColor.value,
+          foreground: foregroundColor.value,
+          level: state.logoDataUrl ? 'H' : 'M'
         });
+        await drawLogo();
         state.ready = true;
         downloadBtn.disabled = false;
         printBtn.disabled = false;
@@ -341,6 +537,23 @@
       textValue.value = '';
       ssid.value = '';
       wifiPassword.value = '';
+      emailAddress.value = '';
+      emailSubject.value = '';
+      emailBody.value = '';
+      phoneNumber.value = '';
+      smsNumber.value = '';
+      smsMessage.value = '';
+      firstName.value = '';
+      lastName.value = '';
+      vcardPhone.value = '';
+      vcardEmail.value = '';
+      vcardOrg.value = '';
+      vcardWebsite.value = '';
+      foregroundColor.value = '#111827';
+      backgroundColor.value = '#ffffff';
+      qrSize.value = '512';
+      logoFile.value = '';
+      state.logoDataUrl = '';
       labelTitle.value = 'JKELTS QR';
       labelSubtitle.value = 'Scan to open';
       const ctx = canvas.getContext('2d');
@@ -354,11 +567,41 @@
 
     textTab.addEventListener('click', () => setMode('text'));
     wifiTab.addEventListener('click', () => setMode('wifi'));
+    emailTab.addEventListener('click', () => setMode('email'));
+    phoneTab.addEventListener('click', () => setMode('phone'));
+    smsTab.addEventListener('click', () => setMode('sms'));
+    vcardTab.addEventListener('click', () => setMode('vcard'));
     generateBtn.addEventListener('click', generate);
     downloadBtn.addEventListener('click', downloadPng);
     printBtn.addEventListener('click', () => window.print());
     clearBtn.addEventListener('click', clearForm);
-    [textValue, ssid, wifiPassword, security, hiddenNetwork, labelTitle, labelSubtitle].forEach(el => {
+    logoFile.addEventListener('change', () => {
+      const file = logoFile.files && logoFile.files[0];
+      if(!file){
+        state.logoDataUrl = '';
+        if(state.ready) generate();
+        return;
+      }
+      if(file.size > 2 * 1024 * 1024){
+        errorBox.textContent = 'Logo file is too large. Use an image under 2 MB.';
+        errorBox.style.display = 'block';
+        logoFile.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.logoDataUrl = String(reader.result || '');
+        generate();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    [
+      textValue, ssid, wifiPassword, security, hiddenNetwork,
+      emailAddress, emailSubject, emailBody, phoneNumber, smsNumber, smsMessage,
+      firstName, lastName, vcardPhone, vcardEmail, vcardOrg, vcardWebsite,
+      foregroundColor, backgroundColor, qrSize, labelTitle, labelSubtitle
+    ].forEach(el => {
       el.addEventListener('input', () => {
         updateLabels();
         if(state.ready) generate();
