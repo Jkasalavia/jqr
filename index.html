@@ -204,7 +204,7 @@
     <div class="wrap">JKELTS QR is a small browser utility for IT support workflows.</div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <script src="qrious.min.js"></script>
   <script>
     const state = { mode: 'text', ready: false };
     const textTab = document.getElementById('textTab');
@@ -262,13 +262,16 @@
       errorBox.style.display = 'none';
       updateLabels();
       try{
-        if(!window.QRCode) throw new Error('QR library failed to load. Check internet access and refresh.');
+        if(!window.QRious) throw new Error('QR library failed to load. Refresh the page or check that qrious.min.js is published.');
         const payload = getPayload();
-        await QRCode.toCanvas(canvas, payload, {
-          width: 260,
-          margin: 2,
-          color: { dark: '#111827', light: '#ffffff' },
-          errorCorrectionLevel: 'M'
+        new QRious({
+          element: canvas,
+          value: payload,
+          size: 260,
+          padding: 18,
+          background: '#ffffff',
+          foreground: '#111827',
+          level: 'M'
         });
         state.ready = true;
         downloadBtn.disabled = false;
